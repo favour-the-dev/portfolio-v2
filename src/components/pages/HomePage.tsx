@@ -4,7 +4,7 @@ import Experience from "./components/Experience";
 function HomePage() {
   return (
     <>
-      <main className="w-full h-full flex flex-col gap-12 overflow-hidden">
+      <main className="w-full h-full flex flex-col overflow-hidden">
         <Hero />
         <About />
         <Experience />

@@ -1,5 +1,5 @@
-import { motion, useScroll } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { motion, type PanInfo } from "framer-motion";
+import { useState, useEffect } from "react";
 function Experience() {
   const experiences = [
     {
@@ -64,34 +64,52 @@ function Experience() {
     },
   ];
   const [currentExperienceIndex, setCurrentExperienceIndex] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
 
   useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      const index = Math.min(
-        Math.floor(latest * experiences.length * 1.5),
-        experiences.length - 1
-      );
-      setCurrentExperienceIndex(Math.max(0, index));
-    });
+    const interval = setInterval(() => {
+      setCurrentExperienceIndex((prev) => (prev + 1) % experiences.length);
+    }, 5000);
 
-    return () => unsubscribe();
-  }, [scrollYProgress, experiences.length]);
+    return () => clearInterval(interval);
+  }, [experiences.length, currentExperienceIndex]);
+
+  const handleRoadmapClick = (index: number) => {
+    setCurrentExperienceIndex(index);
+  };
+
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const threshold = 50;
+    if (info.offset.x > threshold) {
+      setCurrentExperienceIndex((prev) =>
+        prev === 0 ? experiences.length - 1 : prev - 1
+      );
+    } else if (info.offset.x < -threshold) {
+      setCurrentExperienceIndex((prev) => (prev + 1) % experiences.length);
+    }
+  };
 
   return (
     <section
-      ref={sectionRef}
       id="experience"
       className="w-full flex flex-col items-center justify-center my-8 py-16"
     >
       <div className="max-container flex flex-col items-start md:flex-row justify-between gap-5">
         {/* roadmap */}
-        <motion.div className="w-full lg:w-1/2 flex flex-col gap-2">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="w-full lg:w-1/2 flex flex-col gap-2"
+        >
           <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="uppercase w-fit relative text-secondary-accent 
           dark:text-secondary-accent-dark font-medium font-headers text-lg md:text-xl after:absolute after:bottom-[2.5px] 
           after:right-0 after:z-[-1]
@@ -99,38 +117,72 @@ function Experience() {
           >
             My Experience
           </motion.h2>
-          <motion.h3 className="text-text-primary dark:text-text-primary-dark font-body text-4xl md:text-5xl font-bold">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-text-primary dark:text-text-primary-dark font-body text-4xl md:text-5xl font-bold"
+          >
             Where I've Worked
           </motion.h3>
-          <div className="flex flex-col mt-4">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-sm text-secondary-accent dark:text-secondary-accent-dark font-medium"
+          >
+            Get an Idea of My Professional Journey.
+          </motion.span>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-col mt-4"
+          >
             {experiences.map((exp, index) => {
               const isActive = index === currentExperienceIndex;
               return (
-                <div key={index} className="flex items-center gap-3">
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: -30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                  className="flex items-center gap-3 cursor-pointer"
+                  onClick={() => handleRoadmapClick(index)}
+                >
                   <motion.div className="flex flex-col items-center">
                     <motion.div
+                      animate={{
+                        scale: isActive ? 1.1 : 1,
+                      }}
+                      transition={{ duration: 0.3 }}
                       className={`w-8 h-8 p-1 border-4 ${
                         isActive
                           ? "border-secondary-accent dark:border-secondary-accent-dark"
                           : "border-text-secondary dark:border-text-secondary-dark"
                       }
-                      rounded-full flex items-center justify-center`}
+                      rounded-full flex items-center justify-center transition-colors duration-300`}
                     >
                       <motion.div
                         className={`w-[14px] h-[14px] ${
                           isActive
                             ? "bg-secondary-accent dark:bg-secondary-accent-dark"
                             : "bg-text-secondary dark:bg-text-secondary-dark"
-                        } rounded-full`}
+                        } rounded-full transition-colors duration-300`}
                       />
                     </motion.div>
+
                     <motion.div
                       className={`w-[2.5px] h-[100px] 
                     ${
                       isActive
                         ? "bg-secondary-accent dark:bg-secondary-accent-dark"
                         : "bg-text-secondary dark:bg-text-secondary-dark"
-                    }`}
+                    } transition-colors duration-300`}
                     />
                   </motion.div>
                   <motion.div className="flex flex-col gap-1">
@@ -155,13 +207,19 @@ function Experience() {
                       })}
                     </motion.div>
                   </motion.div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </motion.div>
         {/* responsibilities */}
-        <motion.div className="w-full lg:w-1/2 flex flex-col gap-4 relative min-h-[500px]">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="w-full lg:w-1/2 flex flex-col gap-4 relative min-h-[500px]"
+        >
           {experiences.map((exp, index) => {
             const isActive = index === currentExperienceIndex;
             const offset = (index - currentExperienceIndex) * 8;
@@ -184,14 +242,18 @@ function Experience() {
                   opacity: isActive ? 1 : 0.6,
                   zIndex: zIndex,
                 }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
                 style={{
                   transformOrigin: "top center",
                 }}
-                className={`absolute top-0 left-0 right-0 rounded-xl p-6 border-2 transition-all duration-500
+                className={`absolute top-0 left-0 right-0 rounded-xl p-6 border-2 transition-all duration-500 cursor-grab active:cursor-grabbing
                   ${
                     isActive
                       ? "bg-background/90 dark:bg-background-dark/90 border-secondary-accent dark:border-secondary-accent-dark shadow-2xl"
-                      : "bg-background/70 dark:bg-background-dark/70 border-text-secondary/30 dark:border-text-secondary-dark/30"
+                      : "bg-background/70 dark:bg-background-dark/70 border-text-secondary/30 dark:border-text-secondary-dark/30 pointer-events-none"
                   }
                   backdrop-blur-sm`}
               >
