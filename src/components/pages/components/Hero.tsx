@@ -72,7 +72,7 @@ function Hero() {
             animate={{ filter: "blur(0px)", opacity: 1 }}
             transition={{ duration: 1 }}
             alt="profile image"
-            src="/public/images/profile-1.jpg"
+            src="/images/profile-1.jpg"
             className="w-full h-full object-cover rounded-full"
           />
         </motion.div>

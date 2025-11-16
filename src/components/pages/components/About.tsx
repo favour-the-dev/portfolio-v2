@@ -55,7 +55,7 @@ function About() {
             transition={{ duration: 1 }}
             viewport={{ once: true }}
             alt="profile_image2"
-            src="/public/images/profile-2.png"
+            src="images/profile-2.png"
             className="w-full h-full object-cover rounded-3xl"
           />
         </motion.div>
