@@ -81,6 +81,7 @@ function Experience() {
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo
   ) => {
+    console.log(event);
     const threshold = 50;
     if (info.offset.x > threshold) {
       setCurrentExperienceIndex((prev) =>
