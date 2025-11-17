@@ -1,5 +1,6 @@
 import AppProvider from "./providers/povider";
 import Navbar from "./components/ui/Navbar";
+import Footer from "./components/ui/Footer";
 import HomePage from "./components/pages/HomePage";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <AppProvider>
       <Navbar />
       <HomePage />
+      <Footer />
     </AppProvider>
   );
 }

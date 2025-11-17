@@ -25,10 +25,6 @@ function Navbar() {
       path: "/#projects",
     },
     {
-      name: "Education",
-      path: "/#education",
-    },
-    {
       name: "Contact",
       path: "/#contact",
     },
