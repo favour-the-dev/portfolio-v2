@@ -17,29 +17,29 @@ function Footer() {
     {
       icon: <Github className="w-5 h-5" />,
       label: "GitHub",
-      link: "https://github.com/yourusername",
+      link: "https://github.com/favour-the-dev",
     },
     {
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
-      link: "https://linkedin.com/in/yourusername",
+      link: "https://www.linkedin.com/in/favour-odili-8b5439233/",
     },
     {
       icon: <Twitter className="w-5 h-5" />,
       label: "Twitter",
-      link: "https://twitter.com/yourusername",
+      link: "https://x.com/Favytech10",
     },
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
-      link: "mailto:your.email@example.com",
+      link: "mailto:favourto91@gmail.com",
     },
   ];
 
   return (
     <footer className="w-full bg-background/80 dark:bg-background-dark/80 backdrop-blur-md border-t border-secondary-accent/20 dark:border-secondary-accent-dark/20">
-      <div className="max-container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-container px-4 py-16 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +49,7 @@ function Footer() {
             className="flex flex-col gap-4"
           >
             <h3 className="font-headers font-bold text-2xl text-secondary-accent dark:text-secondary-accent-dark">
-              Favour Odili
+              &lt;FvO/&gt;
             </h3>
             <p className="text-text-secondary dark:text-text-secondary-dark text-sm leading-relaxed">
               Full-stack developer crafting exceptional digital experiences with
@@ -138,7 +138,7 @@ function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-secondary-accent/10 dark:border-secondary-accent-dark/10
+          className="mt-16 pt-8 border-t border-secondary-accent/10 dark:border-secondary-accent-dark/10
           flex flex-col md:flex-row items-center justify-between gap-4"
         >
           <motion.p className="text-text-secondary dark:text-text-secondary-dark text-sm flex items-center gap-2">
